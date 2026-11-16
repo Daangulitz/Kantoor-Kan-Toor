@@ -3,7 +3,7 @@ using UnityEngine;
 public class DollSnapPoints : MonoBehaviour
 {
     private bool SnapPointOpen = false;
-    [SerializeField]
+    [SerializeField] private GameObject[] SnapPoints;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -14,7 +14,20 @@ public class DollSnapPoints : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(SnapPointOpen)
+        {
+            foreach(GameObject SnapPoint in SnapPoints)
+            {
+                SnapPoint.SetActive(true);
+            }
+        } 
+        else
+        {
+            foreach(GameObject SnapPoint in SnapPoints)
+            {
+                SnapPoint.SetActive(false);
+            }
+        }
     }
 
     public void SetSnapPointOpen()
@@ -26,4 +39,5 @@ public class DollSnapPoints : MonoBehaviour
     {
         SnapPointOpen = false;
     }
+
 }
