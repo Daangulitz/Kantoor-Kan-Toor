@@ -23,6 +23,7 @@ public class LazerGun : MonoBehaviour
     [SerializeField] private SplineLineSegments splineSegments;   // the object with SplineLineSegments
 
     private SplineLineCollider.Segment lastSegment;
+    private DollGameObjects dollGameObjects;
     private int SegmentCount = 0;
     private int maxSegments = 60;   // keep the same as segments in SplineLineCollider / SplineLineSegments
     private bool finished = false;
@@ -49,13 +50,20 @@ public class LazerGun : MonoBehaviour
         if (hitMarker != null) hitMarker.SetActive(false);
     }
 
+    void Start()
+    {
+        dollGameObjects = FindAnyObjectByType<DollGameObjects>();
+        if (dollGameObjects == null)
+            Debug.LogWarning("DollGameObjects script not found in the scene.");
+    }
+
     void Update()
     {
         if (!finished && SegmentCount >= maxSegments)
         {
             finished = true;
             if (SplineLineRenderer != null) SplineLineRenderer.enabled = false;
-            Debug.Log("Heart cut out!");
+            dollGameObjects?.ShowObjects(); 
         }
 
         bool firing = triggerAction != null && triggerAction.action.IsPressed();
