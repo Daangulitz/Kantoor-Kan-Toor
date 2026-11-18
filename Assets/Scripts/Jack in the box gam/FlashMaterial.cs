@@ -18,6 +18,7 @@ public class FlashMaterial : MonoBehaviour
     public void StartFlash()
     {
         Activated = true;
+        gameObject.SetActive(true);
     }
 
     public void StopFlash()
@@ -62,5 +63,10 @@ public class FlashMaterial : MonoBehaviour
     {
         meshRenderer.material = Standard;
         Activated = false;
+    }
+
+    public void disableGameObject()
+    {
+        gameObject.SetActive(false);
     }
 }
