@@ -3,9 +3,13 @@ using UnityEngine;
 
 public class PlacingGear : MonoBehaviour
 {
-    [SerializeField] private FlashMaterial flashMaterial;
+    [SerializeField] private HoverMaterial hoverMaterial;
     [SerializeField] private CompletedEvent completedEvent;
     [SerializeField] private GearPlace gearPlace;
+
+    private bool gearPlaced = false;
+    private bool isInTrigger = false;
+    private GameObject currentGear;
     public enum GearPlace
     {
         Gearplace1,
@@ -16,17 +20,24 @@ public class PlacingGear : MonoBehaviour
         Gearplace6
     }
 
-    private bool isInTrigger = false;
-    private GameObject currentGear;
+
+    public void resetGearPlace()
+    {
+        currentGear.GetComponent<Rigidbody>().isKinematic = false;
+        currentGear.GetComponent<Rigidbody>().useGravity = true;
+        gearPlaced = false;
+        isInTrigger = false;
+        currentGear = null;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Gear"))
         {
             currentGear = other.gameObject;
-            if (flashMaterial != null)
+            if (hoverMaterial != null && !gearPlaced)
             {
-                flashMaterial.SetHoverMaterial();
+                hoverMaterial.SetHoverMaterial();
                 isInTrigger = true;
             }
         }
@@ -37,10 +48,11 @@ public class PlacingGear : MonoBehaviour
         if (other.CompareTag("Gear"))
         {
             currentGear = null;
-            if (flashMaterial != null)
+            if (hoverMaterial != null)
             {
-                flashMaterial.StartFlash();
+                hoverMaterial.SetTransparentMaterial();
                 isInTrigger = false;
+                gearPlaced = false;
             }
         }
     }
@@ -49,11 +61,10 @@ public class PlacingGear : MonoBehaviour
     {
         if(isInTrigger)
         {
-            flashMaterial.StopFlash();
+            hoverMaterial.SetTransparentMaterial();
             isInTrigger = false;
+            gearPlaced = true;
             completedEvent.AddGearCount();
-
-            flashMaterial.disableGameObject();
 
             placeGearLocation();
         }
@@ -61,10 +72,17 @@ public class PlacingGear : MonoBehaviour
 
     public void placeGearLocation()
     {
+        currentGear.GetComponent<Rigidbody>().isKinematic = true;
+        currentGear.GetComponent<Rigidbody>().useGravity = false;
         Vector3 gearPosition = this.transform.position;
         gearPosition.z += 0.05f;
         currentGear.transform.position = gearPosition;
         currentGear.transform.rotation = this.transform.rotation;
         currentGear.GetComponent<Rigidbody>().isKinematic = true;
+    }
+
+    public void addCorrectGear()
+    {
+        completedEvent.addCorrectGear((int)gearPlace);
     }
 }
