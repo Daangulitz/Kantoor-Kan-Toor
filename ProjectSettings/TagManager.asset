@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - DollHart
+  serializedVersion: 3
+  tags:
+  - CodeDoll
   layers:
   - Default
   - TransparentFX
