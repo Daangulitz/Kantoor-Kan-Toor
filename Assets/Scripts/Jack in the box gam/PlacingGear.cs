@@ -1,88 +1,61 @@
-using System;
 using UnityEngine;
 
 public class PlacingGear : MonoBehaviour
 {
     [SerializeField] private HoverMaterial hoverMaterial;
     [SerializeField] private CompletedEvent completedEvent;
-    [SerializeField] private GearPlace gearPlace;
+    [SerializeField] private GearPlace gearPlace; // which gear belongs in THIS socket
 
-    private bool gearPlaced = false;
-    private bool isInTrigger = false;
-    private GameObject currentGear;
-    public enum GearPlace
+    public enum GearPlace { Gearplace1, Gearplace2, Gearplace3, Gearplace4, Gearplace5, Gearplace6 }
+
+    public bool IsOccupied { get; private set; }
+
+    public Pose SnapPose
     {
-        Gearplace1,
-        Gearplace2,
-        Gearplace3,
-        Gearplace4,
-        Gearplace5,
-        Gearplace6
-    }
-
-
-    public void resetGearPlace()
-    {
-        currentGear.GetComponent<Rigidbody>().isKinematic = false;
-        currentGear.GetComponent<Rigidbody>().useGravity = true;
-        gearPlaced = false;
-        isInTrigger = false;
-        currentGear = null;
+        get
+        {
+            Vector3 pos = transform.position;
+            pos.z += 0.05f;
+            return new Pose(pos, transform.rotation);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Gear"))
-        {
-            currentGear = other.gameObject;
-            if (hoverMaterial != null && !gearPlaced)
-            {
-                hoverMaterial.SetHoverMaterial();
-                isInTrigger = true;
-            }
-        }
+        GearIdentity gear = other.GetComponentInParent<GearIdentity>();
+        if (gear != null)
+            gear.AddSocketInRange(this);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Gear"))
-        {
-            currentGear = null;
-            if (hoverMaterial != null)
-            {
-                hoverMaterial.SetTransparentMaterial();
-                isInTrigger = false;
-                gearPlaced = false;
-            }
-        }
+        GearIdentity gear = other.GetComponentInParent<GearIdentity>();
+        if (gear != null)
+            gear.RemoveSocketInRange(this);
     }
 
-    public void placeGear()
+    public void ShowHover()
     {
-        if(isInTrigger)
-        {
+        if (!IsOccupied && hoverMaterial != null)
+            hoverMaterial.SetHoverMaterial();
+    }
+
+    public void HideHover()
+    {
+        if (hoverMaterial != null)
             hoverMaterial.SetTransparentMaterial();
-            isInTrigger = false;
-            gearPlaced = true;
-            completedEvent.AddGearCount();
-
-            placeGearLocation();
-        }
     }
 
-    public void placeGearLocation()
+    public void Occupy(GearIdentity gear)
     {
-        currentGear.GetComponent<Rigidbody>().isKinematic = true;
-        currentGear.GetComponent<Rigidbody>().useGravity = false;
-        Vector3 gearPosition = this.transform.position;
-        gearPosition.z += 0.05f;
-        currentGear.transform.position = gearPosition;
-        currentGear.transform.rotation = this.transform.rotation;
-        currentGear.GetComponent<Rigidbody>().isKinematic = true;
+        IsOccupied = true;
+        HideHover();
+        completedEvent.SetSocketState((int)gearPlace, true, gear.GearId == gearPlace);
     }
 
-    public void addCorrectGear()
+    public void Free()
     {
-        completedEvent.addCorrectGear((int)gearPlace);
+        IsOccupied = false;
+        completedEvent.SetSocketState((int)gearPlace, false, false);
     }
 }

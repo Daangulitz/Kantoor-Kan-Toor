@@ -1,27 +1,40 @@
-using UnityEngine;
+using System;
 using TMPro;
+using UnityEngine;
 
 public class CompletedEvent : MonoBehaviour
 {
-    private int GearCount = 0;
+    [SerializeField] private TMP_Text gearCountText;
 
-    [SerializeField] private TMP_Text GearCountText;
+    private readonly bool[] occupied = new bool[6];
+    private readonly bool[] correct = new bool[6];
 
-    public int[] ints = new int[6];
+    public event Action OnAllGearsCompleted;
 
-
-    public void AddGearCount()
+    public void SetSocketState(int socketIndex, bool isOccupied, bool isCorrect)
     {
-        GearCount++;
-        GearCountText.text = "0" + GearCount;
+        if (socketIndex < 0 || socketIndex >= occupied.Length)
+            return;
+
+        occupied[socketIndex] = isOccupied;
+        correct[socketIndex] = isOccupied && isCorrect;
+
+        UpdateCountText();
+
+        if (Array.TrueForAll(correct, c => c))
+            OnAllGearsCompleted?.Invoke();
     }
 
-    public void addCorrectGear(int index)
+    // Name kept so HandleRotation doesn't need changes: true only if the CORRECT gear is in this socket
+    public bool IsGearPlaced(int socketIndex)
     {
-        // place index in the correct array position ( index 6, is the last position in the array)
-        if (index >= 0 && index < ints.Length)
-        {
-            ints[index] = 1;
-        }
+        return socketIndex >= 0 && socketIndex < correct.Length && correct[socketIndex];
+    }
+
+    private void UpdateCountText()
+    {
+        int count = 0;
+        foreach (bool o in occupied) if (o) count++;
+        gearCountText.text = "0" + count;
     }
 }

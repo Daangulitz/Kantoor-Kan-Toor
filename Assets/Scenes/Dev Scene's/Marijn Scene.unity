@@ -201,6 +201,7 @@ GameObject:
   - component: {fileID: 84502190}
   - component: {fileID: 84502189}
   - component: {fileID: 84502194}
+  - component: {fileID: 84502195}
   - component: {fileID: 84502193}
   m_Layer: 0
   m_Name: Whee_Knop3
@@ -350,34 +351,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 41567575}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: resetGearPlace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 41567575}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: placeGear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_FirstFocusEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -427,7 +404,7 @@ MonoBehaviour:
   m_SmoothScale: 0
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -484,6 +461,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &84502195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84502188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c9a096924d7cd68a54b34c23583014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GearIdentity
+  gearId: 2
 --- !u!1001 &175900295
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3357,7 +3347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d850aa473059f8cbacbd545a7f0f71a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CompletedEvent
-  GearCountText: {fileID: 251987239}
+  gearCountText: {fileID: 251987239}
 --- !u!1 &1270818856
 GameObject:
   m_ObjectHideFlags: 0
@@ -3669,9 +3659,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09a83065a7c41701289542881fb03f05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HandleRotation
-  HandleInteractable: {fileID: 459230649}
-  Gogwheel: {fileID: 1908984935}
-  RotationAxis: {x: 0, y: 1, z: 0}
+  handleInteractable: {fileID: 459230649}
+  gogwheel: {fileID: 1908984935}
+  completedEvent: {fileID: 1263641337}
+  rotationAxis: {x: 0, y: 1, z: 0}
+  gearChain:
+  - gear: {fileID: 1628889492}
+    place: 5
+  - gear: {fileID: 1714560284}
+    place: 4
+  - gear: {fileID: 1321099266}
+    place: 3
+  - gear: {fileID: 84502192}
+    place: 2
+  - gear: {fileID: 1593518865}
+    place: 1
+  - gear: {fileID: 1558093668}
+    place: 0
 --- !u!1 &1305726072
 GameObject:
   m_ObjectHideFlags: 0
@@ -3754,6 +3758,7 @@ GameObject:
   - component: {fileID: 1321099264}
   - component: {fileID: 1321099263}
   - component: {fileID: 1321099268}
+  - component: {fileID: 1321099269}
   - component: {fileID: 1321099267}
   m_Layer: 0
   m_Name: Whee_Knop4
@@ -3903,34 +3908,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2092920207}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: resetGearPlace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2092920207}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: placeGear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_FirstFocusEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -3980,7 +3961,7 @@ MonoBehaviour:
   m_SmoothScale: 0
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -4037,6 +4018,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1321099269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321099262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c9a096924d7cd68a54b34c23583014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GearIdentity
+  gearId: 3
 --- !u!1 &1322714341
 GameObject:
   m_ObjectHideFlags: 0
@@ -5091,6 +5085,7 @@ GameObject:
   - component: {fileID: 1558093666}
   - component: {fileID: 1558093665}
   - component: {fileID: 1558093664}
+  - component: {fileID: 1558093669}
   - component: {fileID: 1558093663}
   m_Layer: 0
   m_Name: Whee_Knop1
@@ -5146,34 +5141,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 721266541}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: resetGearPlace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 721266541}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: placeGear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_FirstFocusEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -5223,7 +5194,7 @@ MonoBehaviour:
   m_SmoothScale: 0
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -5374,6 +5345,19 @@ Transform:
   - {fileID: 1270818857}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 5.605, y: 0, z: 0}
+--- !u!114 &1558093669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558093662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c9a096924d7cd68a54b34c23583014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GearIdentity
+  gearId: 0
 --- !u!1 &1583197523
 GameObject:
   m_ObjectHideFlags: 0
@@ -5570,6 +5554,7 @@ GameObject:
   - component: {fileID: 1593518863}
   - component: {fileID: 1593518862}
   - component: {fileID: 1593518867}
+  - component: {fileID: 1593518868}
   - component: {fileID: 1593518866}
   m_Layer: 0
   m_Name: Whee_Knop2
@@ -5719,34 +5704,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1162951278}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: resetGearPlace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1162951278}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: placeGear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_FirstFocusEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -5796,7 +5757,7 @@ MonoBehaviour:
   m_SmoothScale: 0
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -5853,6 +5814,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1593518868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593518861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c9a096924d7cd68a54b34c23583014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GearIdentity
+  gearId: 1
 --- !u!1 &1601771592
 GameObject:
   m_ObjectHideFlags: 0
@@ -5982,6 +5956,7 @@ GameObject:
   - component: {fileID: 1628889490}
   - component: {fileID: 1628889489}
   - component: {fileID: 1628889494}
+  - component: {fileID: 1628889495}
   - component: {fileID: 1628889493}
   m_Layer: 0
   m_Name: Whee_Knop6l
@@ -6131,34 +6106,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1305726075}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: resetGearPlace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1305726075}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: placeGear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_FirstFocusEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -6208,7 +6159,7 @@ MonoBehaviour:
   m_SmoothScale: 0
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -6265,6 +6216,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1628889495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1628889488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c9a096924d7cd68a54b34c23583014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GearIdentity
+  gearId: 5
 --- !u!1 &1659135689
 GameObject:
   m_ObjectHideFlags: 0
@@ -6507,6 +6471,7 @@ GameObject:
   - component: {fileID: 1714560281}
   - component: {fileID: 1714560286}
   - component: {fileID: 1714560285}
+  - component: {fileID: 1714560287}
   m_Layer: 0
   m_Name: Whee_Knop5
   m_TagString: Gear
@@ -6655,34 +6620,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1928422170}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: resetGearPlace
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1928422170}
-        m_TargetAssemblyTypeName: PlacingGear, Assembly-CSharp
-        m_MethodName: placeGear
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_FirstFocusEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -6732,7 +6673,7 @@ MonoBehaviour:
   m_SmoothScale: 0
   m_SmoothScaleAmount: 8
   m_TightenScale: 0.1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -6789,6 +6730,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1714560287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1714560280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41c9a096924d7cd68a54b34c23583014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GearIdentity
+  gearId: 4
 --- !u!1 &1738111058
 GameObject:
   m_ObjectHideFlags: 0

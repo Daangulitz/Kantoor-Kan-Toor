@@ -5,35 +5,46 @@ using UnityEngine.XR.Interaction.Toolkit.Interactors;
 
 public class HandleRotation : MonoBehaviour
 {
+    [System.Serializable]
+    public class GearRotationSettings
+    {
+        public Transform gear;
+        public PlacingGear.GearPlace place;
+    }
+
     [Header("References")]
-    [SerializeField] private XRBaseInteractable HandleInteractable; // works with Grab or Simple
-    [SerializeField] private Transform Gogwheel;
+    [SerializeField] private XRBaseInteractable handleInteractable;
+    [SerializeField] private Transform gogwheel;
+    [SerializeField] private CompletedEvent completedEvent;
 
     [Header("Rotation")]
-    [SerializeField] private Vector3 RotationAxis = Vector3.up;
+    [SerializeField] private Vector3 rotationAxis = Vector3.up;
+
+    [Header("Gear chain (in order: 6 first, then 5 to 1)")]
+    [SerializeField] private GearRotationSettings[] gearChain;
 
     private IXRSelectInteractor currentInteractor;
     private Vector3 previousDirection;
+
     private Vector3 handleLocalPosition;
     private Quaternion handleLocalRotation;
 
     private void Awake()
     {
-        // Remember where the handle sits relative to the wheel
-        handleLocalPosition = HandleInteractable.transform.localPosition;
-        handleLocalRotation = HandleInteractable.transform.localRotation;
+        handleLocalPosition = handleInteractable.transform.localPosition;
+        handleLocalRotation = handleInteractable.transform.localRotation;
     }
 
     private void OnEnable()
     {
-        HandleInteractable.selectEntered.AddListener(StartTurning);
-        HandleInteractable.selectExited.AddListener(StopTurning);
+        handleInteractable.selectEntered.AddListener(StartTurning);
+        handleInteractable.selectExited.AddListener(StopTurning);
     }
 
     private void OnDisable()
     {
-        HandleInteractable.selectEntered.RemoveListener(StartTurning);
-        HandleInteractable.selectExited.RemoveListener(StopTurning);
+        handleInteractable.selectEntered.RemoveListener(StartTurning);
+        handleInteractable.selectExited.RemoveListener(StopTurning);
     }
 
     private void Update()
@@ -41,37 +52,58 @@ public class HandleRotation : MonoBehaviour
         if (currentInteractor == null)
             return;
 
-        Transform controller = currentInteractor.GetAttachTransform(HandleInteractable);
-        Vector3 axis = Gogwheel.TransformDirection(RotationAxis.normalized);
+        Transform controller = currentInteractor.GetAttachTransform(handleInteractable);
+        Vector3 axis = gogwheel.TransformDirection(rotationAxis.normalized);
 
-        Vector3 direction = Vector3.ProjectOnPlane(controller.position - Gogwheel.position, axis);
+        Vector3 direction = Vector3.ProjectOnPlane(
+            controller.position - gogwheel.position, axis);
+
         if (direction.sqrMagnitude < 0.0001f)
             return;
 
         direction.Normalize();
 
         float angle = Vector3.SignedAngle(previousDirection, direction, axis);
-        Gogwheel.Rotate(axis, angle, Space.World);
+
+        // Rotate root gear
+        gogwheel.Rotate(axis, angle, Space.World);
+
+        // Rotate the chain
+        RotateConnectedGears(axis, angle);
 
         previousDirection = direction;
     }
 
-    // Safety net: re-lock the handle to the wheel after all other updates
+    private void RotateConnectedGears(Vector3 axis, float angle)
+    {
+        float direction = -1f; // gear 6 meshes with the main wheel, so it turns the opposite way
+
+        foreach (GearRotationSettings g in gearChain)
+        {
+            if (g.gear == null || !completedEvent.IsGearPlaced((int)g.place))
+                break; // chain is broken here, so nothing after this turns
+
+            g.gear.Rotate(axis, angle * direction, Space.World);
+            direction = -direction; // each next gear alternates direction
+        }
+    }
+
     private void LateUpdate()
     {
-        Transform h = HandleInteractable.transform;
-        h.localPosition = handleLocalPosition;
-        h.localRotation = handleLocalRotation;
+        Transform handle = handleInteractable.transform;
+        handle.localPosition = handleLocalPosition;
+        handle.localRotation = handleLocalRotation;
     }
 
     private void StartTurning(SelectEnterEventArgs args)
     {
         currentInteractor = args.interactorObject;
 
-        Transform controller = currentInteractor.GetAttachTransform(HandleInteractable);
-        Vector3 axis = Gogwheel.TransformDirection(RotationAxis.normalized);
+        Transform controller = currentInteractor.GetAttachTransform(handleInteractable);
+        Vector3 axis = gogwheel.TransformDirection(rotationAxis.normalized);
 
-        previousDirection = Vector3.ProjectOnPlane(controller.position - Gogwheel.position, axis).normalized;
+        previousDirection = Vector3.ProjectOnPlane(
+            controller.position - gogwheel.position, axis).normalized;
     }
 
     private void StopTurning(SelectExitEventArgs args)
