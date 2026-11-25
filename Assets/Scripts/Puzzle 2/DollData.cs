@@ -1,6 +1,6 @@
 using UnityEngine;
+[CreateAssetMenu(fileName = "DollData", menuName = "Custom/PoseData")]
 
-[CreateAssetMenu(fileName = "IngredientData", menuName = "Custom/IngredientData")]
 public class DollData : ScriptableObject
 {
     [SerializeField] public string collorData;
