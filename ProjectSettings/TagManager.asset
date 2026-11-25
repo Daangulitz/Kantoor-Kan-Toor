@@ -5,11 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - DollHart
-  serializedVersion: 3
-  tags:
   - CodeDoll
-  serializedVersion: 3
-  tags:
   - Gear
   layers:
   - Default
@@ -18,7 +14,7 @@ TagManager:
   - Cutline
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 

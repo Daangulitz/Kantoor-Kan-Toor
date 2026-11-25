@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,6 +23,8 @@ public class LazerGun : MonoBehaviour
     [SerializeField] private LineRenderer SplineLineRenderer;     // original full line (optional)
     [SerializeField] private SplineLineSegments splineSegments;   // the object with SplineLineSegments
 
+
+    private bool isGrabbed = false;
     private SplineLineCollider.Segment lastSegment;
     private DollGameObjects dollGameObjects;
     private int SegmentCount = 0;
@@ -59,6 +62,8 @@ public class LazerGun : MonoBehaviour
 
     void Update()
     {
+        if(!isGrabbed) return;
+
         if (!finished && SegmentCount >= maxSegments)
         {
             finished = true;
@@ -116,5 +121,15 @@ public class LazerGun : MonoBehaviour
         beam.SetPosition(0, origin);
         beam.SetPosition(1, end);
         beam.startColor = beam.endColor = color;
+    }
+
+    public void Grabbed()
+    {
+        isGrabbed = true;
+    }
+
+    public void Released()
+    {
+        isGrabbed = false;
     }
 }
