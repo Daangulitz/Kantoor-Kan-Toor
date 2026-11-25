@@ -7,6 +7,7 @@ TagManager:
   - DollHart
   - CodeDoll
   - Gear
+  - Drill
   layers:
   - Default
   - TransparentFX
