@@ -8,6 +8,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - CodeDoll
+  serializedVersion: 3
+  tags:
+  - Gear
   layers:
   - Default
   - TransparentFX
