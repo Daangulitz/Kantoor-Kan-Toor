@@ -1,11 +1,14 @@
-using UnityEngine;
 using System.Linq;
+using TMPro;
+using UnityEngine;
 
 public class PoseCodeGenerator : MonoBehaviour
 {
     [SerializeField] private int[] poseIndex;
     [SerializeField] private bool[] poseMatch;
     [SerializeField] private GameObject[] dolls;
+
+    [SerializeField] private TextMeshProUGUI CodeText;
 
 
     private void Start()
@@ -23,6 +26,7 @@ public class PoseCodeGenerator : MonoBehaviour
             shuffleArray[i] = Random.RandomRange(0, 4);
             dolls[i].GetComponent<PoseData>().poseIndex = shuffleArray[i];
         }
+        CodeText.text = string.Join(", ", poseIndex);
     }
 
     private void CheckCode(GameObject[] PoseDollArray)
