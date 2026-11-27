@@ -8,15 +8,16 @@ public class PlacingGear : MonoBehaviour
 
     public enum GearPlace { Gearplace1, Gearplace2, Gearplace3, Gearplace4, Gearplace5, Gearplace6 }
 
+    private GearIdentity occupant;
+
     public bool IsOccupied { get; private set; }
 
     public Pose SnapPose
     {
         get
         {
-            Vector3 pos = transform.position;
-            pos.z += 0.05f;
-            return new Pose(pos, transform.rotation);
+            Quaternion rot = transform.rotation * Quaternion.Euler(90f, 0f, 0f);
+            return new Pose(transform.position, rot);
         }
     }
 
@@ -48,13 +49,23 @@ public class PlacingGear : MonoBehaviour
 
     public void Occupy(GearIdentity gear)
     {
+        occupant = gear;
         IsOccupied = true;
         HideHover();
+
+        // The gear is already at the snap pose; parenting keeps it exactly there
+        gear.transform.SetParent(transform, true);
+
         completedEvent.SetSocketState((int)gearPlace, true, gear.GearId == gearPlace);
     }
 
     public void Free()
     {
+        // Normally XRI has already unparented the gear when it was grabbed; this is the safety net
+        if (occupant != null && occupant.transform.parent == transform)
+            occupant.transform.SetParent(occupant.HomeParent, true);
+
+        occupant = null;
         IsOccupied = false;
         completedEvent.SetSocketState((int)gearPlace, false, false);
     }

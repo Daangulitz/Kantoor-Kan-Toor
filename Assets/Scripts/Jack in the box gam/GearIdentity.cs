@@ -17,10 +17,15 @@ public class GearIdentity : MonoBehaviour
     private PlacingGear placedSocket;
     private Coroutine settleRoutine;
 
+    public Transform HomeParent { get; private set; } // where the gear lives when it's not in a socket
+
     private void Awake()
     {
         grab = GetComponent<XRGrabInteractable>();
         rb = GetComponent<Rigidbody>();
+
+        HomeParent = transform.parent;
+        grab.retainTransformParent = false; // we handle parenting ourselves
     }
 
     private void OnEnable()
@@ -106,7 +111,8 @@ public class GearIdentity : MonoBehaviour
         }
         else
         {
-            // Dropped somewhere else: make sure XRI didn't leave it frozen
+            // Dropped somewhere else: back to its normal parent, and make sure XRI didn't leave it frozen
+            transform.SetParent(HomeParent, true);
             rb.isKinematic = false;
             rb.useGravity = true;
         }

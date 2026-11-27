@@ -12,16 +12,20 @@ public class HandleRotation : MonoBehaviour
         public PlacingGear.GearPlace place;
     }
 
-    [Header("References")]
-    [SerializeField] private XRBaseInteractable handleInteractable;
-    [SerializeField] private Transform gogwheel;
-    [SerializeField] private CompletedEvent completedEvent;
+    [Header("Crank (what the hand turns)")]
+    [SerializeField] private XRBaseInteractable handleInteractable; // the grip
+    [SerializeField] private Transform crankPivot;                  // empty on the axle, parent of arm + grip
+    [SerializeField] private Vector3 crankLocalAxis = Vector3.up;   // axle direction in CrankPivot's local space
 
-    [Header("Rotation")]
-    [SerializeField] private Vector3 rotationAxis = Vector3.up;
+    [Header("Main gear")]
+    [SerializeField] private Transform gogwheel;
+    [SerializeField] private Vector3 gogwheelLocalAxis = Vector3.up; // axle direction in the gogwheel's local space
+    [SerializeField] private float gogwheelDirection = 1f;           // set to -1 if it turns the wrong way
 
     [Header("Gear chain (in order: 6 first, then 5 to 1)")]
+    [SerializeField] private CompletedEvent completedEvent;
     [SerializeField] private GearRotationSettings[] gearChain;
+    [SerializeField] private Vector3 gearLocalAxis = Vector3.up;     // axle direction in each gear's local space
 
     private IXRSelectInteractor currentInteractor;
     private Vector3 previousDirection;
@@ -53,11 +57,9 @@ public class HandleRotation : MonoBehaviour
             return;
 
         Transform controller = currentInteractor.GetAttachTransform(handleInteractable);
-        Vector3 axis = gogwheel.TransformDirection(rotationAxis.normalized);
+        Vector3 axis = crankPivot.TransformDirection(crankLocalAxis.normalized);
 
-        Vector3 direction = Vector3.ProjectOnPlane(
-            controller.position - gogwheel.position, axis);
-
+        Vector3 direction = Vector3.ProjectOnPlane(controller.position - crankPivot.position, axis);
         if (direction.sqrMagnitude < 0.0001f)
             return;
 
@@ -65,31 +67,34 @@ public class HandleRotation : MonoBehaviour
 
         float angle = Vector3.SignedAngle(previousDirection, direction, axis);
 
-        // Rotate root gear
-        gogwheel.Rotate(axis, angle, Space.World);
+        // The crank (arm + grip) follows the hand exactly
+        crankPivot.Rotate(axis, angle, Space.World);
 
-        // Rotate the chain
-        RotateConnectedGears(axis, angle);
+        // The gears are driven by that same angle, each around its own axle
+        DriveGears(angle);
 
         previousDirection = direction;
     }
 
-    private void RotateConnectedGears(Vector3 axis, float angle)
+    private void DriveGears(float angle)
     {
-        float direction = -1f; // gear 6 meshes with the main wheel, so it turns the opposite way
+        gogwheel.Rotate(gogwheelLocalAxis.normalized, angle * gogwheelDirection, Space.Self);
+
+        float direction = -gogwheelDirection; // gear 6 meshes with the main wheel, so it turns the opposite way
 
         foreach (GearRotationSettings g in gearChain)
         {
             if (g.gear == null || !completedEvent.IsGearPlaced((int)g.place))
                 break; // chain is broken here, so nothing after this turns
 
-            g.gear.Rotate(axis, angle * direction, Space.World);
-            direction = -direction; // each next gear alternates direction
+            g.gear.Rotate(gearLocalAxis.normalized, angle * direction, Space.Self);
+            direction = -direction;
         }
     }
 
     private void LateUpdate()
     {
+        // Keep the grip fixed on the arm, whatever XRI does
         Transform handle = handleInteractable.transform;
         handle.localPosition = handleLocalPosition;
         handle.localRotation = handleLocalRotation;
@@ -100,14 +105,31 @@ public class HandleRotation : MonoBehaviour
         currentInteractor = args.interactorObject;
 
         Transform controller = currentInteractor.GetAttachTransform(handleInteractable);
-        Vector3 axis = gogwheel.TransformDirection(rotationAxis.normalized);
+        Vector3 axis = crankPivot.TransformDirection(crankLocalAxis.normalized);
 
-        previousDirection = Vector3.ProjectOnPlane(
-            controller.position - gogwheel.position, axis).normalized;
+        previousDirection = Vector3.ProjectOnPlane(controller.position - crankPivot.position, axis).normalized;
     }
 
     private void StopTurning(SelectExitEventArgs args)
     {
         currentInteractor = null;
+    }
+
+    // Shows the axles in the Scene view when the object is selected
+    private void OnDrawGizmosSelected()
+    {
+        if (crankPivot != null)
+        {
+            Vector3 a = crankPivot.TransformDirection(crankLocalAxis.normalized);
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawLine(crankPivot.position - a * 0.3f, crankPivot.position + a * 0.3f);
+        }
+
+        if (gogwheel != null)
+        {
+            Vector3 a = gogwheel.TransformDirection(gogwheelLocalAxis.normalized);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(gogwheel.position - a * 0.3f, gogwheel.position + a * 0.3f);
+        }
     }
 }
