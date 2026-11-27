@@ -7,16 +7,13 @@ public class DollGameObjects : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        HeartObject.SetActive(false);
-        CogWheelObject.SetActive(false);
+
     }
 
     // Update is called once per frame
     public void ShowObjects()
     {
-        HeartObject.transform.parent.SetParent(null);
-        CogWheelObject.transform.SetParent(null);
-        HeartObject.SetActive(true);
-        CogWheelObject.SetActive(true);
+        Instantiate(HeartObject);
+        Instantiate(CogWheelObject);
     }
 }
