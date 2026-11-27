@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class DollCodeGenerator : MonoBehaviour
 {
     [SerializeField] private string[] dollOrder;
     [SerializeField] private GameObject[] sockets;
     [SerializeField] private bool[] socketCollorMatches;
-
+    [SerializeField] private TextMeshProUGUI CodeText;
     private void Start()
     {
         ShuffleCode(dollOrder);
@@ -16,16 +17,17 @@ public class DollCodeGenerator : MonoBehaviour
         CheckCode(sockets);
     }
 
-    private void ShuffleCode(string[] shuffelArray)
+    private void ShuffleCode(string[] shuffleArray)
     {
-        for (int i = shuffelArray.Length - 1; i >= 0; i--)
+        for (int i = shuffleArray.Length - 1; i >= 0; i--)
         {
             int randomIndex = Random.Range(0, i + 1);
 
-            (shuffelArray[i], shuffelArray[randomIndex]) = (shuffelArray[randomIndex], shuffelArray[i]);
+            (shuffleArray[i], shuffleArray[randomIndex]) = (shuffleArray[randomIndex], shuffleArray[i]);
 
-            sockets[i].GetComponent<CollorCodeSockets>().designatedCollor = shuffelArray[i];
+            sockets[i].GetComponent<CollorCodeSockets>().designatedCollor = shuffleArray[i];
         }
+        CodeText.text = string.Join(", ", dollOrder);
     }
 
     private void CheckCode(GameObject[] socketArray)

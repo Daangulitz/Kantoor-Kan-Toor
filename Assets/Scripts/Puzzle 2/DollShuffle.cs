@@ -7,6 +7,7 @@ public class DollShuffle : MonoBehaviour
 
     [SerializeField] private GameObject[] FOVTrackers;
     [SerializeField] private bool[] FOVTrackersInView;
+    private bool shuffleCooldown = false;
     void Update()
     {
         FOVTrackers = dollSpawner.spawnedDolls.ToArray();
@@ -21,12 +22,14 @@ public class DollShuffle : MonoBehaviour
             else
             {
                 FOVTrackersInView[i] = false;
+                shuffleCooldown = true;
             }
         }
 
-        if (FOVTrackersInView.All(inView => inView))
+        if (FOVTrackersInView.All(inView => inView) && shuffleCooldown == true)
         {
             dollSpawner.ReplaceDolls();
+            shuffleCooldown = false;
         }
     }
 }

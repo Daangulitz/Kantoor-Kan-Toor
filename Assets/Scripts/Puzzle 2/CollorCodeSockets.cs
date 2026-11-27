@@ -7,7 +7,7 @@ public class CollorCodeSockets : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("CodeDoll") != null)
+        if (other.gameObject.CompareTag("CodeDoll"))
         {
             if (other.gameObject.GetComponent<DollDataChecker>().dollData.collorData == designatedCollor)
             {
