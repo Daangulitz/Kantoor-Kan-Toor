@@ -2,16 +2,18 @@ using UnityEngine;
 
 public class DollSnapPoints : MonoBehaviour
 {
-    private bool SnapPointOpen = false;
-    [SerializeField] private GameObject[] SnapPoints;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private GameObject[] SnapPoints;
+    [SerializeField] private GameObject HartSpline;
+
+    private int CounterForSpline;
+    private bool SnapPointOpen = false;
+
     void Start()
     {
         SnapPointOpen = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(SnapPointOpen)
@@ -28,6 +30,17 @@ public class DollSnapPoints : MonoBehaviour
                 SnapPoint.SetActive(false);
             }
         }
+
+        if(CounterForSpline == 2)
+        {
+            HartSpline.SetActive(true);
+        }
+        else
+        {
+            HartSpline.SetActive(false);
+        }
+
+
     }
 
     public void SetSnapPointOpen()
@@ -38,6 +51,16 @@ public class DollSnapPoints : MonoBehaviour
     public void SetSnapPointClosed()
     {
         SnapPointOpen = false;
+    }
+
+    public void CounterForSplineAdd()
+    {
+        CounterForSpline++;
+    }
+
+    public void CounterForSplineRemove()
+    {
+        CounterForSpline--;
     }
 
 }

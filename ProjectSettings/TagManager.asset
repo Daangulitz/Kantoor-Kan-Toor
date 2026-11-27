@@ -4,15 +4,18 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - DollHart
+  - CodeDoll
   - Gear
+  - Drill
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Cutline
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 
