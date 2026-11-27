@@ -7,8 +7,7 @@ TagManager:
   - DollHart
   - CodeDoll
   - Gear
-  - KeyDoll
-  - DollPiece
+  - Drill
   layers:
   - Default
   - TransparentFX
@@ -16,7 +15,7 @@ TagManager:
   - Cutline
   - Water
   - UI
-  - 
+  - Ground
   - 
   - 
   - 
